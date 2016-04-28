@@ -1,0 +1,6 @@
+/node_modules/
+/.idea/
+/logs/
+config.js
+/public/assets/dist/
+/.sass-cache/
