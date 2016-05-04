@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         output: {
           path: './public/assets/dist/js',
           filename: 'file-manager.widget.js',
-          library: 'FileManager'
+          library: 'FileManagerAPI'
         },
         module: {
           loaders: [

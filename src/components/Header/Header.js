@@ -1,7 +1,11 @@
+/* jshint ignore:start */
 import React from 'react';
 import Breadcrumb from '../Breadcrumb/Breadcrumb'
+/* jshint ignore:end */
 
 export default class Header extends React.Component {
+
+  /* jshint ignore:start */
   render() {
     return (
       <header>
@@ -15,4 +19,6 @@ export default class Header extends React.Component {
       </header>
     );
   }
+  /* jshint ignore:end */
+
 }

@@ -6,20 +6,20 @@ class Parser {
   constructor(paths) {
     this.set(paths);
     this.tree();
-  };
+  }
 
   set(paths) {
     this.paths = paths;
-    this.levels = [],
+    this.levels = [];
     this.a = {};
-  };
+  }
 
   /** Builds the trees from file paths */
   tree() {
     var that = this;
 
-    this.paths.forEach(function (value, key) {
-      that.levels.push(that.explodeTree((value.path.split('/').filter(function (value) {return !(value === '')})), value._id, that));
+    this.paths.forEach(function (value) {
+      that.levels.push(that.explodeTree((value.path.split('/').filter(function (value) {return (value !== '');})), value._id, that));
     });
 
     return this.levels;
@@ -48,11 +48,11 @@ class Parser {
     var level = [];
 
     /** Builds the root level (/) */
-    if(typeof dir === 'undefined' || dir == '/') {
+    if(typeof dir === 'undefined' || dir === '/') {
 
       var obj = {};
 
-      this.levels.forEach(function(value, key) {
+      this.levels.forEach(function(value) {
 
         /** FILE */
         if(typeof value[1].path !== 'undefined') {
@@ -82,7 +82,7 @@ class Parser {
     else if(typeof dir === 'string') {
 
       var
-        request = dir.split('/').filter(function (value) {return !(value === '')}),
+        request = dir.split('/').filter(function (value) {return (value !== '');}),
         that = this,
         next = this.levels;
 
@@ -90,7 +90,7 @@ class Parser {
 
       level = this.getLevel(); //the root level
 
-      request.forEach(function(name, key) {
+      request.forEach(function(name) {
 
         current_dir = (current_dir.replace(/\/*$/, ''))+"/"+name+"/";
 
@@ -118,11 +118,11 @@ class Parser {
     var next = [];
     var obj = {};
 
-    inn.forEach(function(item, key) {
+    inn.forEach(function(item) {
       var name = item[0];
       var options = item[1];
 
-      if(name == request_name) {
+      if(name === request_name) {
 
         /** FILE */
         if(typeof options[1].path !== 'undefined') {
@@ -153,7 +153,7 @@ class Parser {
       var w = that.explodeTree(parts, _id, that);
 
       /** If we are on last element (file). Assign the ID and PATH props */
-      r.push(((w.length == (key + 1) && w.length == 1) ? [w[0], {'id': _id, 'path': w[0]}] : w));
+      r.push(((w.length === (key + 1) && w.length === 1) ? [w[0], {'id': _id, 'path': w[0]}] : w));
     });
 
     return r;

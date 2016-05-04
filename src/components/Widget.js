@@ -1,14 +1,16 @@
 /*jslint node: true */
 "use strict";
 
+/* jshint ignore:start */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Emitter from './Emitter';
 import Parser from './Parser';
 import Header from './Header/Header';
-import FilePreviewBox from './FilePreviewBox/FilePreviewBox';
+import FileManager from './FileManager/FileManager';
+/* jshint ignore:end */
 
-class FileManager {
+class FileManagerAPI {
 
   constructor(paths) {
 
@@ -18,21 +20,23 @@ class FileManager {
 
     this.paths = ((typeof paths === 'undefined') ? [] : paths);
     this.e = new Emitter();
-  };
+  }
 
   /** Renders the react widget */
   initialize() {
 
     this.parser = new Parser(this.paths);
 
+    /* jshint ignore:start */
     ReactDOM.render(<div>
       <Header/>
-      <FilePreviewBox
+      <FileManager
         emitter={this.e}
         parser={this.parser}
       />
     </div>, document.getElementById('container'));
-  };
+    /* jshint ignore:end */
+  }
 
   /** Sets paths from array
    *
@@ -41,22 +45,22 @@ class FileManager {
   set(paths) {
     this.paths = paths;
     return this;
-  };
+  }
 
   /** Gets all setted paths */
   get() {
     return this.paths;
-  };
+  }
 
   /** Proxy to current emitter -> on */
   on(event, callback) {
     this.e.on(event, callback);
-  };
+  }
 
   /** Proxy to current emitter */
   emitter() {
     return this.e;
-  };
+  }
 
   /** Appends path to current path array
    *
@@ -65,7 +69,7 @@ class FileManager {
   append(path) {
     this.paths.push(path);
     return this;
-  };
+  }
 }
 
-export default FileManager;
+export default FileManagerAPI;
