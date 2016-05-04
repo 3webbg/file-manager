@@ -25,16 +25,12 @@ class FileManager {
 
     this.parser = new Parser(this.paths);
 
-    console.log(this.parser.getLevel());
-    console.log(this.parser.getLevel('/tmp/dir-test'));
-
-    /** TODO Pass parser & emitter to components */
-    //this.e;
-    //this.parser;
-
     ReactDOM.render(<div>
       <Header/>
-      <FilePreviewBox/>
+      <FilePreviewBox
+        emitter={this.e}
+        parser={this.parser}
+      />
     </div>, document.getElementById('container'));
   };
 

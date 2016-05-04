@@ -20,10 +20,11 @@
     var FileManagerObject = new FileManager();
 
     FileManagerObject.set([
-        {_id: 5, path: '/etc/smth'},
-        {_id: 5, path: '/tmp/dir-test/qwe2'},
-        {_id: 9, path: '/tmp/dir-test-1/qwe'},
-        {_id: 6, path: '/tmp/dir-test/qwe3'}
+        {_id: 5, path: '/etc/etc-sub-dir/sub-sub-etc-dir/file'},
+        {_id: 5, path: '/etc/etc-sub-dir/sub-sub-etc-dir2/file'},
+        {_id: 6, path: '/tmp/dir-test/qwe2'},
+        {_id: 7, path: '/tmp/dir-test-1/qwe'},
+        {_id: 8, path: '/tmp/dir-test/qwe3'}
     ]);
 
     FileManagerObject.on('delete', function(filename, key) {

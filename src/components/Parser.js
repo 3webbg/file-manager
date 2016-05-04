@@ -48,7 +48,7 @@ class Parser {
     var level = [];
 
     /** Builds the root level (/) */
-    if(typeof dir === 'undefined') {
+    if(typeof dir === 'undefined' || dir == '/') {
 
       var obj = {};
 
@@ -56,12 +56,12 @@ class Parser {
 
         /** FILE */
         if(typeof value[1].path !== 'undefined') {
-          obj[value[1].path] = {type: 'file', '_id': value[1].id};
+          obj[value[1].path] = {type: 'file', dir: '/', '_id': value[1].id};
         }
 
         /** DIR */
         if(typeof value[1].path === 'undefined') {
-          obj[value[0]] = {type: 'dir', 'marked': false};
+          obj[value[0]] = {type: 'dir', dir: '/', 'marked': false};
         }
       });
 
@@ -86,12 +86,15 @@ class Parser {
         that = this,
         next = this.levels;
 
-      console.log("Next", next);
+      var current_dir = '/';
 
       level = this.getLevel(); //the root level
 
       request.forEach(function(name, key) {
-        var list = that.listDir(name, next, that);
+
+        current_dir = (current_dir.replace(/\/*$/, ''))+"/"+name+"/";
+
+        var list = that.listDir(name, next, current_dir);
 
         if(Object.keys(list.obj).length === 0 && JSON.stringify(list.obj) === JSON.stringify({})) {
           throw new Error("Directory " + name + " is not found");
@@ -110,7 +113,7 @@ class Parser {
    *  @param string request_name Name of the directory
    *  @param string inn Structure parsed like from explodeTree
    */
-  listDir(request_name, inn) {
+  listDir(request_name, inn, current_dir) {
 
     var next = [];
     var obj = {};
@@ -123,12 +126,12 @@ class Parser {
 
         /** FILE */
         if(typeof options[1].path !== 'undefined') {
-          obj[options[0]] = {type: 'file', '_id': options[1].id};
+          obj[options[0]] = {type: 'file', dir: current_dir, '_id': options[1].id};
         }
 
         /** DIR */
         if(typeof options[1].path === 'undefined') {
-          obj[options[0]] = {type: 'dir', 'marked': false};
+          obj[options[0]] = {type: 'dir', dir: current_dir, 'marked': false};
           next.push(options);
         }
       }
