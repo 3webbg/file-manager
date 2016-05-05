@@ -11,6 +11,8 @@ import BackwardButton from './Header/BackwardButton';
 import HomeButton from './Header/HomeButton';
 import FileManager from './FileManager/FileManager';
 import Breadcrumb from './Breadcrumb/Breadcrumb'
+import NewFolderButton from './Header/NewFolderButton'
+import DeleteButton from './Header/DeleteButton'
 /* jshint ignore:end */
 
 class FileManagerAPI {
@@ -33,10 +35,10 @@ class FileManagerAPI {
     /* jshint ignore:start */
     ReactDOM.render(<div>
       <Header>
-        <BackwardButton
-          parser={this.parser}
-        />
+        <BackwardButton parser={this.parser} />
         <HomeButton />
+        <NewFolderButton parser={this.parser} />
+        <DeleteButton parser={this.parser} />
       </Header>
       <Breadcrumb
         parser={this.parser}

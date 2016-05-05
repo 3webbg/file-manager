@@ -15,10 +15,16 @@ export default class File extends React.Component {
   }
 
   setSelected(e) {
+
+    var file = (e.currentTarget.getAttribute('data-path'))+(e.currentTarget.getAttribute('data-name'));
+    console.log('file name maybe ', file);
+
     global.clearHighlight();
     global.clearRightMenu();
     this.highlight();
     this.props.listDirs(e);
+    global.setDeleteDestination(file);
+    global.setBreadcrumbCurrentLevel(file);
   }
 
   highlight() {
@@ -36,6 +42,7 @@ export default class File extends React.Component {
   rightMenu(e) {
     e.preventDefault();
     global.clearRightMenu();
+    this.setSelected(e);
     this.setState({menu: true});
   }
 
@@ -43,7 +50,7 @@ export default class File extends React.Component {
   render() {
     return (
       <div className={("files " + ((this.state.highlight) ? "selected" : "")) + " " + ((this.state.menu) ? "selected_outline" : "")}>
-        <a href="#" id={this.props.id} className="fm-dir files" data-path={this.props.path} onClick={this.props.listDirs} onClick={this.setSelected.bind(this)} onContextMenu={this.rightMenu.bind(this)}>
+        <a href="#" id={this.props.id} className="fm-dir files" data-path={this.props.path} data-name={this.props.name} onClick={this.setSelected.bind(this)} onContextMenu={this.rightMenu.bind(this)}>
           <div>
             <div className="fm-left">
               <i className="fa fa-file" aria-hidden="true"/>
@@ -51,7 +58,7 @@ export default class File extends React.Component {
             </div>
           </div>
         </a>
-        {(this.state.menu) ? <Menu /> : ""}
+        {(this.state.menu) ? <Menu destination={this.props.path + this.props.name} /> : ""}
       </div>
     );
   }

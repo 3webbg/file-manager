@@ -4,12 +4,27 @@ import React from 'react';
 
 export default class Menu extends React.Component {
 
+  constructor(props) {
+    super(props);
+  }
+
+  renameItem(e) {
+    global.clearRightMenu();
+    alert('Rename ' + this.props.destination);
+  }
+
+  deleteItem(e) {
+    global.clearRightMenu();
+    global.setDeleteDestination(this.props.destination).forceDelete();
+    global.clearDeleteDestination();
+  }
+
   /* jshint ignore:start */
   render() {
     return (
       <div className="fm-right-menu menu">
-        <a href="#">Rename</a>
-        <a href="#">Delete</a>
+        <a href="#" onClick={this.renameItem.bind(this)}>Rename</a>
+        <a href="#" onClick={this.deleteItem.bind(this)}>Delete</a>
       </div>
     );
   }

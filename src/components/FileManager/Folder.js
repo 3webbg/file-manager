@@ -16,6 +16,7 @@ export default class Folder extends React.Component {
   setSelected(e){
     global.clearHighlight();
     global.clearRightMenu();
+    global.setDeleteDestination(e.currentTarget.getAttribute('data-path'));
     this.props.listDirs(e);
   }
 
@@ -28,10 +29,8 @@ export default class Folder extends React.Component {
   rightMenu(e) {
     e.preventDefault();
     global.clearRightMenu();
-
-    this.setState({
-      menu: true
-    });
+    this.setSelected(e);
+    this.setState({menu: true});
   }
 
   /* jshint ignore:start */
@@ -46,7 +45,7 @@ export default class Folder extends React.Component {
             </div>
           </div>
         </a>
-        {(this.state.menu) ? <Menu /> : ""}
+        {(this.state.menu) ? <Menu destination={this.props.path} /> : ""}
       </div>
     );
   }

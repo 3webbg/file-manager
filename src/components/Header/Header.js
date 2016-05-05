@@ -8,11 +8,7 @@ export default class Header extends React.Component {
   render() {
     return (
       <header>
-        <div className="header">
-          { this.props.children }
-          <button className="btn">New folder</button>
-          <button className="btn">Delete</button>
-        </div>
+        <div className="header">{ this.props.children }</div>
       </header>
     );
   }
