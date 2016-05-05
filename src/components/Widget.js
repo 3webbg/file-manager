@@ -10,6 +10,7 @@ import Header from './Header/Header';
 import BackwardButton from './Header/BackwardButton';
 import HomeButton from './Header/HomeButton';
 import FileManager from './FileManager/FileManager';
+import Breadcrumb from './Breadcrumb/Breadcrumb'
 /* jshint ignore:end */
 
 class FileManagerAPI {
@@ -37,6 +38,9 @@ class FileManagerAPI {
         />
         <HomeButton />
       </Header>
+      <Breadcrumb
+        parser={this.parser}
+      />
       <FileManager
         emitter={this.e}
         parser={this.parser}

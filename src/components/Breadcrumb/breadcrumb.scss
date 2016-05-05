@@ -1,11 +1,19 @@
 .breadcrumb-nav {
   background-color: #E7E5E2;
   color: rgba(43,43,43,.5);
-  padding: 7px 15px;
+  padding: 0px 15px;
+  display: flex;
+  align-items: center;
+  height: 29px;
 }
 .breadcrumb-link {
   display: inline-block;
-  margin-right: 20px;
   color: rgba(43,43,43,.5);
   text-decoration: none;
+}
+.breadcrumb-link span {
+  margin: 0 5px;
+}
+.breadcrumb-link-outer {
+  display: inline-block;
 }

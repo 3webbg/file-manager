@@ -14,13 +14,14 @@ export default class BackwardButton extends React.Component {
   backwards(e) {
     e.preventDefault();
     var prev = this.props.parser.previous(e.currentTarget.getAttribute('data-path'));
-    global.setCurrentLevel(prev);
+    global.setBreadcrumbCurrentLevel(prev);
+    global.setBackwardCurrentLevel(prev);
     global.clearHighlight();
     global.changeLevel(prev);
   }
 
   componentWillMount() {
-    global.setCurrentLevel = (path) => {
+    global.setBackwardCurrentLevel = (path) => {
       this.setState({'previous': path});
     };
   }

@@ -6,7 +6,8 @@ export default class HomeButton extends React.Component {
 
   home(e) {
     e.preventDefault();
-    global.setCurrentLevel('/');
+    global.setBreadcrumbCurrentLevel('/');
+    global.setBackwardCurrentLevel('/');
     global.clearHighlight();
     global.changeLevel('/');
   }
