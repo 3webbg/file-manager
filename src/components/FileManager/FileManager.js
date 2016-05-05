@@ -41,17 +41,34 @@ export default class FileManager extends React.Component {
     };
 
     global.clearRightMenu = () => {
-      var i = 0;
-      while(i !== null) {
-        if(typeof this.refs['dir_ref'+i] !== 'undefined') {
-          this.refs['dir_ref'+i].clearRightMenu();
-          i++;
-        } else {
-          i = null;
-        }
-      }
+      this._clearFileRightMenu();
+      this._clearDirRightMenu();
     };
 
+  }
+
+  _clearFileRightMenu() {
+    var i = 0;
+    while(i !== null) {
+      if(typeof this.refs['file_ref'+i] !== 'undefined') {
+        this.refs['file_ref'+i].clearRightMenu();
+        i++;
+      } else {
+        i = null;
+      }
+    }
+  }
+
+  _clearDirRightMenu() {
+    var i = 0;
+    while(i !== null) {
+      if(typeof this.refs['dir_ref'+i] !== 'undefined') {
+        this.refs['dir_ref'+i].clearRightMenu();
+        i++;
+      } else {
+        i = null;
+      }
+    }
   }
 
   /* jshint ignore:start */
