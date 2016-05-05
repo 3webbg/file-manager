@@ -25,6 +25,12 @@ class Parser {
     return this.levels;
   }
 
+  previous(dir) {
+    dir = dir.split('/').filter(function (value) {return (value !== '');});
+    dir.pop();
+    return dir.join('/');
+  }
+
   /** Returns directories & files
    *
    *  @param string dir (optional)
@@ -102,6 +108,16 @@ class Parser {
 
         next = list.next;
         level.push(list.obj);
+      });
+
+      /** Marks the opened folders by the requested path */
+      var dir_array = dir.split('/').filter(function (value) {return (value !== '');});
+      level.forEach(function(element, key) {
+        Object.keys(element).map(function (name, i) {
+          if(dir_array[key] == name) {
+            level[key][name].marked = true;
+          }
+        });
       });
     }
 

@@ -2,7 +2,6 @@
 import React from 'react';
 import File from './File';
 import Folder from './Folder';
-import ReactDOM from 'react-dom';
 import Menu from './Menu'
 /* jshint ignore:end */
 
@@ -13,28 +12,46 @@ export default class FileManager extends React.Component {
 
     /** Gets the root level (/) */
     this.state = {
-      'level': props.parser.getLevel(),
-      'selected': -1,
-      'rightClicked': -1
+      'level': props.parser.getLevel()
     };
-    this.list = this.list.bind(this);
   }
-    highlight(index){
-      var currentIndex = index;
-      if(this.state.selected !== -1) {
-        ReactDOM.findDOMNode(this.refs['file' + this.state.selected]).className ='files';
-      }
 
-      if(this.state.selected === index && currentIndex != index) {
-        this.setState({selected: -1});
-      }
-      else {
-        ReactDOM.findDOMNode(this.refs['file' + index]).className = 'files selected';
-        this.setState({selected: index});
-      }
-    }
   list(e) {
-    this.setState({'level': this.props.parser.getLevel(e.currentTarget.getAttribute('data-path'))});
+    var level = e.currentTarget.getAttribute('data-path');
+    global.setCurrentLevel(level);
+    this.setState({'level': this.props.parser.getLevel(level)});
+  }
+
+  componentWillMount() {
+
+    global.changeLevel = (path) => {
+      this.setState({'level': this.props.parser.getLevel(path)});
+    };
+
+    global.clearHighlight = () => {
+      var i = 0;
+      while(i !== null) {
+        if(typeof this.refs['file_ref'+i] !== 'undefined') {
+          this.refs['file_ref'+i].clearHighlight();
+          i++;
+        } else {
+          i = null;
+        }
+      }
+    };
+
+    global.clearRightMenu = () => {
+      var i = 0;
+      while(i !== null) {
+        if(typeof this.refs['dir_ref'+i] !== 'undefined') {
+          this.refs['dir_ref'+i].clearRightMenu();
+          i++;
+        } else {
+          i = null;
+        }
+      }
+    };
+
   }
 
   /* jshint ignore:start */
@@ -42,7 +59,8 @@ export default class FileManager extends React.Component {
     var
       el = this.state.level,
       that = this,
-      index = 0;
+      file_index = 0,
+      dir_index = 0;
 
     return (
       <div>
@@ -57,23 +75,25 @@ export default class FileManager extends React.Component {
                 return (
                   options.type == 'dir' ?
                     <Folder
-                      ref={'file' + index}
-                      index={index++}
-                      highlight={that.highlight.bind(that)}
+                      ref={'dir_ref'+dir_index++}
+                      id={dir_index}
+                      index={dir_index}
                       key={unKey}
-                      listDirs={that.list}
+                      listDirs={that.list.bind(that)}
                       path={options.dir+name}
-                      name={name}>
+                      name={name}
+                      marked={((options.marked) ? "selected" : "")}
+                    >
                     </Folder> :
                     <File
-                      ref={'file' + index}
-                      index={index++}
-                      highlight={that.highlight.bind(that)}
+                      ref={'file_ref'+file_index++}
+                      index={file_index}
                       key={unKey}
-                      listDirs={that.list}
+                      listDirs={that.list.bind(that)}
                       path={options.dir}
                       name={name}
-                      id={options.id}>
+                      id={file_index}
+                    >
                     </File>
                 );
               })}

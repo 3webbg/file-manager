@@ -7,15 +7,26 @@ export default class Folder extends React.Component {
   constructor(props) {
     super(props);
   }
+
   setSelected(e){
-    var index = this.props.index;
-    this.props.highlight(index);
+    global.clearHighlight();
+    global.clearRightMenu();
     this.props.listDirs(e);
   }
+
+  clearRightMenu() {
+    console.log("Clear right menu");
+  }
+
+  rightMenu() {
+    global.clearRightMenu();
+    console.log("Add right menu");
+  }
+
   /* jshint ignore:start */
   render() {
     return (
-      <div >
+      <div className={this.props.marked}>
         <a href="#" id={this.props.id} className="fm-dir files" data-path={this.props.path} onClick={this.setSelected.bind(this)}>
           <div >
             <div className="fm-left">

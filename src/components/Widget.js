@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom';
 import Emitter from './Emitter';
 import Parser from './Parser';
 import Header from './Header/Header';
+import BackwardButton from './Header/BackwardButton';
+import HomeButton from './Header/HomeButton';
 import FileManager from './FileManager/FileManager';
 /* jshint ignore:end */
 
@@ -29,7 +31,12 @@ class FileManagerAPI {
 
     /* jshint ignore:start */
     ReactDOM.render(<div>
-      <Header/>
+      <Header>
+        <BackwardButton
+          parser={this.parser}
+        />
+        <HomeButton />
+      </Header>
       <FileManager
         emitter={this.e}
         parser={this.parser}
