@@ -2,6 +2,8 @@
 import React from 'react';
 import File from './File';
 import Folder from './Folder';
+import ReactDOM from 'react-dom';
+import Menu from './Menu'
 /* jshint ignore:end */
 
 export default class FileManager extends React.Component {
@@ -10,10 +12,27 @@ export default class FileManager extends React.Component {
     super(props);
 
     /** Gets the root level (/) */
-    this.state = {'level': props.parser.getLevel()};
+    this.state = {
+      'level': props.parser.getLevel(),
+      'selected': -1,
+      'rightClicked': -1
+    };
     this.list = this.list.bind(this);
   }
+    highlight(index){
+      var currentIndex = index;
+      if(this.state.selected !== -1) {
+        ReactDOM.findDOMNode(this.refs['file' + this.state.selected]).className ='files';
+      }
 
+      if(this.state.selected === index && currentIndex != index) {
+        this.setState({selected: -1});
+      }
+      else {
+        ReactDOM.findDOMNode(this.refs['file' + index]).className = 'files selected';
+        this.setState({selected: index});
+      }
+    }
   list(e) {
     this.setState({'level': this.props.parser.getLevel(e.currentTarget.getAttribute('data-path'))});
   }
@@ -22,7 +41,8 @@ export default class FileManager extends React.Component {
   render() {
     var
       el = this.state.level,
-      that = this;
+      that = this,
+      index = 0;
 
     return (
       <div>
@@ -37,18 +57,24 @@ export default class FileManager extends React.Component {
                 return (
                   options.type == 'dir' ?
                     <Folder
+                      ref={'file' + index}
+                      index={index++}
+                      highlight={that.highlight.bind(that)}
                       key={unKey}
-                      onClick={that.list}
+                      listDirs={that.list}
                       path={options.dir+name}
-                      name={name}
-                    /> :
+                      name={name}>
+                    </Folder> :
                     <File
+                      ref={'file' + index}
+                      index={index++}
+                      highlight={that.highlight.bind(that)}
                       key={unKey}
-                      onClick={that.list}
+                      listDirs={that.list}
                       path={options.dir}
                       name={name}
-                      id={options.id}
-                    />
+                      id={options.id}>
+                    </File>
                 );
               })}
             </div>
