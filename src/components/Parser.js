@@ -48,7 +48,7 @@ class Parser {
     return this.previous(this.previous(path));
   }
 
-  rename(path, newname, dir) {
+  rename(path, newname, dir, e) {
     var paths = this.paths;
 
     path = path.replace(/\/\/+/g, '/');
@@ -56,8 +56,10 @@ class Parser {
 
     this.paths.map(function (item, i) {
       if((dir && item.path.startsWith(path + "/")) || (!dir && item.path == path)) {
+        var oldname = item.path;
         var regex = new RegExp("^("+path+")");
         paths[i].path = paths[i].path.replace(regex, newname);
+        e.emitEdit(paths[i].path, oldname, paths[i]._id);
       }
     });
 

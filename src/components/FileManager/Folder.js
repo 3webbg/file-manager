@@ -22,6 +22,7 @@ export default class Folder extends React.Component {
     global.setDeleteDestination(e.currentTarget.getAttribute('data-path'), true);
     this.props.listDirs(e);
     global.resetFilePreview();
+    this.props.emitter.emitNavigate(e.currentTarget.getAttribute('data-path'), true);
   }
   setRename() {
     this.setState({rename: true});
@@ -29,7 +30,7 @@ export default class Folder extends React.Component {
   saveRename(e) {
     if (e.key === 'Enter') {
       var newName = ReactDOM.findDOMNode(this.refs.inputVal).value;
-      this.props.parser.rename(this.props.parent_path+"/"+this.props.name, this.props.parent_path+"/"+newName, true);
+      this.props.parser.rename(this.props.parent_path+"/"+this.props.name, this.props.parent_path+"/"+newName, true, this.props.emitter);
 
       var level = this.props.parent_path;
       global.setBreadcrumbCurrentLevel(level);
@@ -58,7 +59,6 @@ export default class Folder extends React.Component {
   componentDidMount() {
     var width = $('.fm-wrapper').length;
     $('body').css("width",""+(220*width+300)+"px");
-    console.log(width);
   }
   rightMenu(e) {
     e.preventDefault();

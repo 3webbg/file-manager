@@ -37,6 +37,14 @@
         console.log("Create file " + filename + " with key " + key);
     });
 
+    FileManagerObject.on('edit', function(filename, oldname, key) {
+        console.log("Edit file " + oldname + " with new name " + filename + " and key " + key);
+    });
+
+    FileManagerObject.on('navigate', function(path, isdir) {
+        console.log("Navigate to " + path, ' Is directory ' + isdir);
+    });
+
     FileManagerObject.initialize();
 </script>
 </body>

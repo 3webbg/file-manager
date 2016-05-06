@@ -31,8 +31,8 @@ class Emitter {
     this.emitter.emit('edit', name, oldname, key);
   }
 
-  emitNavigate(name, key) {
-    this.emitter.emit('navigate', name, key);
+  emitNavigate(name, isdir) {
+    this.emitter.emit('navigate', name, isdir);
   }
 }
 

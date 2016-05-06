@@ -24,6 +24,7 @@ export default class File extends React.Component {
     global.setDeleteDestination(file, false);
     global.setBreadcrumbCurrentLevel(file);
     global.setFilePreview(e.currentTarget.getAttribute('data-name'));
+    this.props.emitter.emitNavigate(file, false);
   }
   setRename() {
     this.setState({rename: true});
@@ -31,7 +32,7 @@ export default class File extends React.Component {
   saveRename(e) {
     if (e.key === 'Enter') {
       var newName = ReactDOM.findDOMNode(this.refs.inputVal).value;
-      this.props.parser.rename(this.props.path+"/"+this.props.name, this.props.path+"/"+newName, false);
+      this.props.parser.rename(this.props.path+"/"+this.props.name, this.props.path+"/"+newName, false, this.props.emitter);
 
       var level = this.props.path;
       global.setBreadcrumbCurrentLevel(level);
@@ -64,7 +65,6 @@ export default class File extends React.Component {
   }
   componentDidMount() {
     var width = $('.fm-wrapper').length;
-    console.log(width);
   }
   rightMenu(e) {
     e.preventDefault();

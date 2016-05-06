@@ -37,6 +37,7 @@ export default class FileManager extends React.Component {
     };
 
     global.changeLevel = (path) => {
+      this.props.emitter.emitNavigate(path, true);
       this.setState({'level': this.props.parser.getLevel(path)});
     };
 
@@ -130,6 +131,7 @@ export default class FileManager extends React.Component {
                   options.type == 'dir' ?
                     <Folder
                       parser={that.props.parser}
+                      emitter={that.props.emitter}
                       ref={'dir_ref'+dir_index++}
                       id={dir_index}
                       index={dir_index}
@@ -143,6 +145,7 @@ export default class FileManager extends React.Component {
                     </Folder> :
                     <File
                       parser={that.props.parser}
+                      emitter={that.props.emitter}
                       ref={'file_ref'+file_index++}
                       index={file_index}
                       key={unKey}
