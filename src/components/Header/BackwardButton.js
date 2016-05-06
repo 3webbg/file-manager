@@ -20,6 +20,7 @@ export default class BackwardButton extends React.Component {
     global.setDeleteDestination(prev, true);
     global.clearHighlight();
     global.changeLevel(prev);
+    global.resetFilePreview();
   }
 
   componentWillMount() {

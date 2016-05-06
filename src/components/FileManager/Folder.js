@@ -29,7 +29,15 @@ export default class Folder extends React.Component {
   saveRename(e) {
     if (e.key === 'Enter') {
       var newName = ReactDOM.findDOMNode(this.refs.inputVal).value;
-      console.log(newName);
+      this.props.parser.rename(this.props.parent_path+"/"+this.props.name, this.props.parent_path+"/"+newName, true);
+
+      var level = this.props.parent_path;
+      global.setBreadcrumbCurrentLevel(level);
+      global.setBackwardCurrentLevel(level);
+      global.setNewFolderCurrentLevel(level);
+      global.setDeleteDestination(level, true);
+      global.clearHighlight();
+      global.changeLevel(level);
       this.clearFolderRename();
     }
   }

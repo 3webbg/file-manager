@@ -48,6 +48,25 @@ class Parser {
     return this.previous(this.previous(path));
   }
 
+  rename(path, newname, dir) {
+    var paths = this.paths;
+
+    path = path.replace(/\/\/+/g, '/');
+    newname = newname.replace(/\/\/+/g, '/');
+
+    this.paths.map(function (item, i) {
+      if((dir && item.path.startsWith(path + "/")) || (!dir && item.path == path)) {
+        var regex = new RegExp("^("+path+")");
+        paths[i].path = paths[i].path.replace(regex, newname);
+      }
+    });
+
+    this.paths = paths;
+
+    /** Rebuilds the tree */
+    this.tree();
+  }
+
   deleteFromPaths(path, dir, e) {
     var paths = this.paths;
 

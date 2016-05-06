@@ -22,6 +22,8 @@ export default class Breadcrumb extends React.Component {
     global.setNewFolderCurrentLevel(prev);
     global.setDeleteDestination(prev, true);
     global.changeLevel(prev);
+    global.resetFilePreview();
+
   }
 
   render() {

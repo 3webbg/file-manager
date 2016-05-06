@@ -129,17 +129,20 @@ export default class FileManager extends React.Component {
                 return (
                   options.type == 'dir' ?
                     <Folder
+                      parser={that.props.parser}
                       ref={'dir_ref'+dir_index++}
                       id={dir_index}
                       index={dir_index}
                       key={unKey}
                       listDirs={that.list.bind(that)}
+                      parent_path={options.dir}
                       path={options.dir+name}
                       name={name}
                       marked={((options.marked) ? "selected" : "")}
                     >
                     </Folder> :
                     <File
+                      parser={that.props.parser}
                       ref={'file_ref'+file_index++}
                       index={file_index}
                       key={unKey}
