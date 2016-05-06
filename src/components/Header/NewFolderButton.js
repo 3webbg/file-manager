@@ -21,7 +21,12 @@ export default class NewFolderButton extends React.Component {
     e.preventDefault();
     global.clearRightMenu();
     global.clearHighlight();
-    alert('Create new folder in ' + this.state.dir);
+    var level = this.props.parser.createNewFolderIn(this.state.dir, this.props.emitter);
+    global.setBreadcrumbCurrentLevel(level);
+    global.setBackwardCurrentLevel(level);
+    global.setNewFolderCurrentLevel(level);
+    global.setDeleteDestination(level, true);
+    global.changeLevel(level);
   }
 
   render() {

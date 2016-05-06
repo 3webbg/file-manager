@@ -32,8 +32,26 @@ class Parser {
     return dir.join('/');
   }
 
+  createNewFolderIn(path, e) {
+    var new_folder_name = 'Untitled' + (this.paths.length);
+    var new_file_name = '.meta';
+    path = "/"+path+"/"+new_folder_name+"/"+new_file_name;
+    path = path.replace(/\/\/+/g, '/');
+
+    this.paths.push({_id: null, path: path});
+
+    e.emitCreate(path, null);
+
+    /** Rebuilds the tree */
+    this.tree();
+
+    return this.previous(this.previous(path));
+  }
+
   deleteFromPaths(path, dir, e) {
     var paths = this.paths;
+
+    path = path.replace(/\/\/+/g, '/');
 
     this.paths.map(function (item, i) {
       if((dir && item.path.startsWith(path + "/")) || (!dir && item.path == path)) {

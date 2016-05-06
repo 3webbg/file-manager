@@ -37,7 +37,7 @@ class FileManagerAPI {
       <Header>
         <BackwardButton parser={this.parser} />
         <HomeButton />
-        <NewFolderButton parser={this.parser} />
+        <NewFolderButton parser={this.parser} emitter={this.e} />
         <DeleteButton parser={this.parser} emitter={this.e} />
       </Header>
       <Breadcrumb parser={this.parser} />
