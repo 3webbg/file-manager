@@ -51,6 +51,7 @@ export default class Folder extends React.Component {
     e.preventDefault();
     global.clearRightMenu();
     global.clearRename();
+    global.setDeleteDestination(e.currentTarget.getAttribute('data-path'), true);
     this.setState({menu: true});
   }
 
@@ -66,7 +67,7 @@ export default class Folder extends React.Component {
             </div>
           </div>
         </a>
-        {(this.state.menu) ? <Menu onRename={this.setRename.bind(this)} onSave={this.saveRename.bind(this)} destination={this.props.path} /> : ""}
+        {(this.state.menu) ? <Menu onRename={this.setRename.bind(this)} isdir={true} onSave={this.saveRename.bind(this)} destination={this.props.path} /> : ""}
       </div>
     );
   }

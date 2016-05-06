@@ -14,7 +14,7 @@ export default class Menu extends React.Component {
 
   deleteItem(e) {
     global.clearRightMenu();
-    global.setDeleteDestination(this.props.destination, true).forceDelete();
+    global.setDeleteDestination(this.props.destination, this.props.isdir).forceDelete();
     global.clearDeleteDestination();
   }
 
