@@ -21,6 +21,7 @@ export default class Folder extends React.Component {
     global.clearRightMenu();
     global.setDeleteDestination(e.currentTarget.getAttribute('data-path'), true);
     this.props.listDirs(e);
+    global.resetFilePreview();
   }
   setRename() {
     this.setState({rename: true});
@@ -48,7 +49,7 @@ export default class Folder extends React.Component {
   }
   componentDidMount() {
     var width = $('.fm-wrapper').length;
-    $('body').css("width",""+220*width+"px");
+    $('body').css("width",""+(220*width+300)+"px");
     console.log(width);
   }
   rightMenu(e) {

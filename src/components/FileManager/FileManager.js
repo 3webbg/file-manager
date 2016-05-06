@@ -32,6 +32,9 @@ export default class FileManager extends React.Component {
     global.setFilePreview = (name) => {
       this.setState({'preview': name});
     };
+    global.resetFilePreview=()=> {
+      this.setState({'preview': null});
+    };
 
     global.changeLevel = (path) => {
       this.setState({'level': this.props.parser.getLevel(path)});
@@ -58,11 +61,6 @@ export default class FileManager extends React.Component {
       this._clearDirRename();
     };
 
-  }
-  componentDidMount() {
-    var width = $('.fm-wrapper').length;
-    console.log(width);
-    $('body').css();
   }
   _clearFileRightMenu() {
     var i = 0;
