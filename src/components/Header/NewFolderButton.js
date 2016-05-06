@@ -19,17 +19,14 @@ export default class NewFolderButton extends React.Component {
 
   newFolder(e) {
     e.preventDefault();
-    global.clearRightMenu();
-    global.clearHighlight();
-    var level = this.props.parser.createNewFolderIn(this.state.dir, this.props.emitter);
-    global.setBreadcrumbCurrentLevel(level);
-    global.setBackwardCurrentLevel(level);
-    global.setNewFolderCurrentLevel(level);
-    global.setDeleteDestination(level, true);
-    global.changeLevel(level);
+
+    /** Sets a path to open */
+    global.setPath(this.props.parser.createNewFolderIn(this.state.dir), true);
   }
 
+  /* jshint ignore:start */
   render() {
     return (<button className="btn" onClick={this.newFolder.bind(this)}>New folder</button>);
   }
+  /* jshint ignore:end */
 }

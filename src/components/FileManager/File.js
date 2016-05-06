@@ -15,43 +15,47 @@ export default class File extends React.Component {
       value: this.props.name
     };
   }
+
   setSelected(e) {
+
     var file = (e.currentTarget.getAttribute('data-path'))+(e.currentTarget.getAttribute('data-name'));
-    global.clearHighlight();
-    global.clearRightMenu();
+
+    /** Sets a path to open */
+    global.setPath(file, false);
+
+    /** Highlights the file */
     this.highlight();
-    this.props.listDirs(e);
-    global.setDeleteDestination(file, false);
-    global.setBreadcrumbCurrentLevel(file);
+
+    /** Opens file preview box */
     global.setFilePreview(e.currentTarget.getAttribute('data-name'));
-    this.props.emitter.emitNavigate(file, false);
   }
+
   setRename() {
     this.setState({rename: true});
   }
+
   saveRename(e) {
     if (e.key === 'Enter') {
       var newName = ReactDOM.findDOMNode(this.refs.inputVal).value;
-      this.props.parser.rename(this.props.path+"/"+this.props.name, this.props.path+"/"+newName, false, this.props.emitter);
+      this.props.parser.rename(this.props.path+"/"+this.props.name, this.props.path+"/"+newName, false);
 
-      var level = this.props.path;
-      global.setBreadcrumbCurrentLevel(level);
-      global.setBackwardCurrentLevel(level);
-      global.setNewFolderCurrentLevel(level);
-      global.setDeleteDestination(level, false);
-      global.clearHighlight();
-      global.changeLevel(level);
+      /** Sets a path to open */
+      global.setPath(this.props.path+"/"+newName, false);
+
       this.clearFileRename();
     }
   }
+
   clearFileRename() {
     this.setState({
       rename: false
     });
   }
+
   handleChange(e){
     this.setState({value: e.target.value});
   }
+
   highlight() {
     this.setState({'highlight': true});
   }
@@ -63,9 +67,11 @@ export default class File extends React.Component {
   clearRightMenu() {
     this.setState({menu: false});
   }
+
   componentDidMount() {
     var width = $('.fm-wrapper').length;
   }
+
   rightMenu(e) {
     e.preventDefault();
     global.clearRightMenu();

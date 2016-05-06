@@ -32,16 +32,13 @@ export default class DeleteButton extends React.Component {
   }
 
   forceDelete() {
-    this.props.parser.deleteFromPaths(this.state.destination, this.state.isdir, this.props.emitter);
-    var level = this.props.parser.getFirstExistingDirectory(this.state.destination);
-    global.setBreadcrumbCurrentLevel(level);
-    global.setBackwardCurrentLevel(level);
-    global.setNewFolderCurrentLevel(level);
-    global.setDeleteDestination(level, true);
-    global.changeLevel(level);
+    this.props.parser.deleteFromPaths(this.state.destination, this.state.isdir);
+    global.setPath(this.props.parser.getFirstExistingDirectory(this.state.destination), true)
   }
 
+  /* jshint ignore:start */
   render() {
     return (<button className="btn" onClick={this.deleteDestination.bind(this)} disabled={(this.state.destination === null)}>Delete</button>);
   }
+  /* jshint ignore:end */
 }

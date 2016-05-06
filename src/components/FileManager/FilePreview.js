@@ -1,10 +1,13 @@
+/* jshint ignore:start */
 import React from 'react';
+/* jshint ignore:end */
 
 export default class FilePreview extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  /* jshint ignore:start */
   render () {
     return (
       <div className="file-preview">
@@ -13,4 +16,5 @@ export default class FilePreview extends React.Component {
       </div>
     );
   }
+  /* jshint ignore:end */
 }

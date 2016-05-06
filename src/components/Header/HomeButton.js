@@ -6,15 +6,14 @@ export default class HomeButton extends React.Component {
 
   home(e) {
     e.preventDefault();
-    global.setBreadcrumbCurrentLevel('/');
-    global.setBackwardCurrentLevel('/');
-    global.setNewFolderCurrentLevel('/');
-    global.setDeleteDestination('/', true);
-    global.clearHighlight();
-    global.changeLevel('/');
+
+    /** Sets a path to open */
+    global.setPath('/', true);
   }
 
+  /* jshint ignore:start */
   render() {
     return (<a href="#!" className="btn" onClick={this.home.bind(this)}><i className="fa fa-level-up" aria-hidden="true"></i></a>);
   }
+  /* jshint ignore:end */
 }

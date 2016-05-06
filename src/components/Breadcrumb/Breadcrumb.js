@@ -1,4 +1,6 @@
+/* jshint ignore:start */
 import React from 'react';
+/* jshint ignore:end */
 
 export default class Breadcrumb extends React.Component {
   constructor(props) {
@@ -16,14 +18,9 @@ export default class Breadcrumb extends React.Component {
 
   changeLevel(e) {
     e.preventDefault();
-    var prev = e.currentTarget.getAttribute('data-path');
-    global.setBreadcrumbCurrentLevel(prev);
-    global.setBackwardCurrentLevel(prev);
-    global.setNewFolderCurrentLevel(prev);
-    global.setDeleteDestination(prev, true);
-    global.changeLevel(prev);
-    global.resetFilePreview();
 
+    /** Sets a path to open */
+    global.setPath(e.currentTarget.getAttribute('data-path'), true);
   }
 
   render() {

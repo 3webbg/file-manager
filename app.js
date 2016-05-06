@@ -47,9 +47,6 @@ server.register([{
     config: config
   }
 }], {
-  //routes: {
-  //  prefix: config.route.prefix
-  //}
 }, function(error) {
   if (error) {
     require('./plugins/log.js').errorLog(error);

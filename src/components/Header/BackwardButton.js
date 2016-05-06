@@ -13,14 +13,7 @@ export default class BackwardButton extends React.Component {
 
   backwards(e) {
     e.preventDefault();
-    var prev = this.props.parser.previous(e.currentTarget.getAttribute('data-path'));
-    global.setBreadcrumbCurrentLevel(prev);
-    global.setBackwardCurrentLevel(prev);
-    global.setNewFolderCurrentLevel(prev);
-    global.setDeleteDestination(prev, true);
-    global.clearHighlight();
-    global.changeLevel(prev);
-    global.resetFilePreview();
+    global.setPath(this.props.parser.previous(e.currentTarget.getAttribute('data-path')), true);
   }
 
   componentWillMount() {
@@ -29,7 +22,9 @@ export default class BackwardButton extends React.Component {
     };
   }
 
+  /* jshint ignore:start */
   render() {
     return (<a href="#!" className="btn" onClick={this.backwards.bind(this)} data-path={this.state.previous}><i className="fa fa-angle-left" aria-hidden="true"></i></a>);
   }
+  /* jshint ignore:end */
 }

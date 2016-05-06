@@ -18,29 +18,50 @@ export default class FileManager extends React.Component {
     };
   }
 
-  list(e) {
-    var level = e.currentTarget.getAttribute('data-path');
-    global.setBreadcrumbCurrentLevel(level);
-    global.setBackwardCurrentLevel(level);
-    global.setNewFolderCurrentLevel(level);
-    global.setDeleteDestination(level, true);
-    this.setState({'level': this.props.parser.getLevel(level)});
-  }
-
   componentWillMount() {
 
+    /** Sets a path */
+    global.setPath = (path, isdir) => {
+      global.setBreadcrumbCurrentLevel(path);
+      global.setDeleteDestination(path, isdir);
+      global.clearRightMenu();
+      global.clearHighlight();
+
+      if(isdir) {
+        global.setBackwardCurrentLevel(path);
+        global.setNewFolderCurrentLevel(path);
+        global.changeLevel(path);
+
+        /** Emits navigate event */
+        this.props.emitter.emitNavigate(path, true);
+      }
+
+      if(!isdir) {
+        global.changeLevel(this.props.parser.previous(path));
+
+        /** Emits navigate event */
+        this.props.emitter.emitNavigate(path, false);
+      }
+
+      global.resetFilePreview();
+    };
+
+    /** Sets a file for preview */
     global.setFilePreview = (name) => {
       this.setState({'preview': name});
     };
+
+    /** Resets a file preview */
     global.resetFilePreview=()=> {
       this.setState({'preview': null});
     };
 
+    /** Changes directory level */
     global.changeLevel = (path) => {
-      this.props.emitter.emitNavigate(path, true);
       this.setState({'level': this.props.parser.getLevel(path)});
     };
 
+    /** Clears all file highlights */
     global.clearHighlight = () => {
       var i = 0;
       while(i !== null) {
@@ -52,17 +73,20 @@ export default class FileManager extends React.Component {
         }
       }
     };
+
+    /** Closes all open directory/file context menus */
     global.clearRightMenu = () => {
       this._clearFileRightMenu();
       this._clearDirRightMenu();
     };
-    
+
+    /** Closes all open directory/file rename inputs */
     global.clearRename = () => {
       this._clearFileRename();
       this._clearDirRename();
     };
-
   }
+
   _clearFileRightMenu() {
     var i = 0;
     while(i !== null) {
@@ -136,7 +160,6 @@ export default class FileManager extends React.Component {
                       id={dir_index}
                       index={dir_index}
                       key={unKey}
-                      listDirs={that.list.bind(that)}
                       parent_path={options.dir}
                       path={options.dir+name}
                       name={name}
@@ -149,7 +172,6 @@ export default class FileManager extends React.Component {
                       ref={'file_ref'+file_index++}
                       index={file_index}
                       key={unKey}
-                      listDirs={that.list.bind(that)}
                       path={options.dir}
                       name={name}
                       id={file_index}
@@ -165,5 +187,4 @@ export default class FileManager extends React.Component {
     );
   }
   /* jshint ignore:end */
-
 }

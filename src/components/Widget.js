@@ -24,24 +24,24 @@ class FileManagerAPI {
     }
 
     this.paths = ((typeof paths === 'undefined') ? [] : paths);
-    this.e = new Emitter();
+    this.emitter = new Emitter();
   }
 
   /** Renders the react widget */
   initialize() {
 
-    this.parser = new Parser(this.paths);
+    this.parser = new Parser(this.paths, this.emitter);
 
     /* jshint ignore:start */
     ReactDOM.render(<div>
       <Header>
         <BackwardButton parser={this.parser} />
         <HomeButton />
-        <NewFolderButton parser={this.parser} emitter={this.e} />
-        <DeleteButton parser={this.parser} emitter={this.e} />
+        <NewFolderButton parser={this.parser} />
+        <DeleteButton parser={this.parser} />
       </Header>
       <Breadcrumb parser={this.parser} />
-      <FileManager emitter={this.e} parser={this.parser} />
+      <FileManager emitter={this.emitter} parser={this.parser} />
     </div>, document.getElementById('container'));
     /* jshint ignore:end */
   }
@@ -62,12 +62,12 @@ class FileManagerAPI {
 
   /** Proxy to current emitter -> on */
   on(event, callback) {
-    this.e.on(event, callback);
+    this.emitter.on(event, callback);
   }
 
   /** Proxy to current emitter */
-  emitter() {
-    return this.e;
+  getEmitter() {
+    return this.emitter;
   }
 
   /** Appends path to current path array

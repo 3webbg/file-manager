@@ -1,4 +1,4 @@
-![alt tag](http://24s.us/screenshot.png)
+![alt tag](http://24s.us/screenshot1.png)
 
 
 # File manager
@@ -47,6 +47,90 @@ Server must be set to UTC time zone
 
 ```
 node app.js
+```
+
+## SERVER
+
+A server is start at 127.0.0.1:5001
+
+## API
+
+- initialize() Initializes the widget
+
+- .on(...) Listen for an event
+    - delete
+    - create
+    - edit
+    - navigate
+    
+- set(paths) Sets an array of paths
+    - 
+    ```
+    [
+        {_id: 1, path: '/etc/etc-sub-dir/sub-sub-etc-dir/file'},
+        {_id: 2, path: '/etc/etc-sub-dir/sub-sub-etc-dir/file1'},
+        {_id: 3, path: '/etc/file3'},
+        {_id: 4, path: '/etc/etc-sub-dir/sub-sub-etc-dir2/file5'},
+        {_id: 5, path: '/tmp/dir-test/qwe2'},
+        {_id: 6, path: '/tmp/dir-test-1/qwe'},
+        {_id: 7, path: '/tmp/dir-test/qwe3'}
+    ]
+    ```
+
+- append(path) Appends a path to current array
+    -
+    ```
+    {_id: 1, path: '/etc/etc-sub-dir/sub-sub-etc-dir/file'}
+    ```
+    
+- get() Gets all paths
+
+- getEmitter() Gets the event emitter
+    - on()
+    - off()
+    - once()
+    - emitDelete()
+    - emitCreate()
+    - emitEdit()
+    - emitNavigate()
+
+## Example
+
+An example can be found in:
+##### src/views/layout/default.html
+
+##### * Notice the \<div id="container"\>\</div\> it's required.
+
+```
+    var FileManagerObject = new FileManagerAPI();
+    
+    FileManagerObject.set([
+        {_id: 1, path: '/etc/etc-sub-dir/sub-sub-etc-dir/file'},
+        {_id: 2, path: '/etc/etc-sub-dir/sub-sub-etc-dir/file1'},
+        {_id: 3, path: '/etc/file3'},
+        {_id: 4, path: '/etc/etc-sub-dir/sub-sub-etc-dir2/file5'},
+        {_id: 5, path: '/tmp/dir-test/qwe2'},
+        {_id: 6, path: '/tmp/dir-test-1/qwe'},
+        {_id: 7, path: '/tmp/dir-test/qwe3'}
+    ]);
+    
+    FileManagerObject.on('delete', function(filename, key) {
+        console.log("Delete file " + filename + " with key " + key);
+    });
+    
+    FileManagerObject.on('create', function(filename, key) {
+        console.log("Create file " + filename + " with key " + key);
+    });
+    
+    FileManagerObject.on('edit', function(filename, oldname, key) {
+        console.log("Edit file " + oldname + " with new name " + filename + " and key " + key);
+    });
+    
+    FileManagerObject.on('navigate', function(path, isdir) {
+        console.log("Navigate to " + path, ' Is directory ' + isdir);
+    });
+    
+    FileManagerObject.initialize();
 ```
 
 ## Optional

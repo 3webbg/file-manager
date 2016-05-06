@@ -3,18 +3,30 @@
 
 class Parser {
 
-  constructor(paths) {
+  /** Constructor
+   *
+   * @var array paths [{_id: 1, path: '/etc/etc-sub-dir/sub-sub-etc-dir/file'}, ...]
+   * @var Emitter emitter
+   */
+  constructor(paths, emitter) {
     this.set(paths);
     this.tree();
+    this.emitter = emitter;
   }
 
+  /** Sets paths to work with
+   *
+   * @var array paths [{_id: 1, path: '/etc/etc-sub-dir/sub-sub-etc-dir/file'}, ...]
+   */
   set(paths) {
     this.paths = paths;
     this.levels = [];
-    this.a = {};
   }
 
-  /** Builds the trees from file paths */
+  /** Builds the trees from file paths
+   *
+   *  @return array
+   */
   tree() {
     var that = this;
     this.levels = [];
@@ -26,21 +38,31 @@ class Parser {
     return this.levels;
   }
 
+  /** Gets the previous (parent) directory of a given path
+   *
+   * @var string dir /tmp/tmp-dir
+   * @return string /tmp
+   */
   previous(dir) {
     dir = dir.split('/').filter(function (value) {return (value !== '');});
     dir.pop();
     return dir.join('/');
   }
 
-  createNewFolderIn(path, e) {
-    var new_folder_name = 'Untitled' + (this.paths.length);
-    var new_file_name = '.meta';
-    path = "/"+path+"/"+new_folder_name+"/"+new_file_name;
-    path = path.replace(/\/\/+/g, '/');
+  /** Creates a new folder with unique name
+   *
+   * @var string path Parent directory for the new one
+   * @return string parent directory
+   */
+  createNewFolderIn(path) {
+
+    /** Creates the directory & .meta file */
+    path = ("/"+path+"/"+('Untitled' + (this.paths.length))+"/.meta").replace(/\/\/+/g, '/');
 
     this.paths.push({_id: null, path: path});
 
-    e.emitCreate(path, null);
+    /** Emits the create event */
+    this.emitter.emitCreate(path, null);
 
     /** Rebuilds the tree */
     this.tree();
@@ -48,8 +70,16 @@ class Parser {
     return this.previous(this.previous(path));
   }
 
-  rename(path, newname, dir, e) {
-    var paths = this.paths;
+  /** Renames a directory/file
+   *
+   * @var string path Path to the directory/file for renaming
+   * @var string newname New path to the directory/file
+   * @var boolean dir Is it a directory
+   */
+  rename(path, newname, dir) {
+    var
+      paths = this.paths,
+      that = this;
 
     path = path.replace(/\/\/+/g, '/');
     newname = newname.replace(/\/\/+/g, '/');
@@ -59,7 +89,7 @@ class Parser {
         var oldname = item.path;
         var regex = new RegExp("^("+path+")");
         paths[i].path = paths[i].path.replace(regex, newname);
-        e.emitEdit(paths[i].path, oldname, paths[i]._id);
+        that.emitter.emitEdit(paths[i].path, oldname, paths[i]._id);
       }
     });
 
@@ -69,14 +99,21 @@ class Parser {
     this.tree();
   }
 
-  deleteFromPaths(path, dir, e) {
-    var paths = this.paths;
+  /** Deletes a directory/file
+   *
+   * @var string path Path to the directory/file for deleting
+   * @var boolean dir Is it a directory
+   */
+  deleteFromPaths(path, dir) {
+    var
+      paths = this.paths,
+      that = this;
 
     path = path.replace(/\/\/+/g, '/');
 
     this.paths.map(function (item, i) {
       if((dir && item.path.startsWith(path + "/")) || (!dir && item.path == path)) {
-        e.emitDelete(paths[i].path, paths[i]._id);
+        that.emitter.emitDelete(paths[i].path, paths[i]._id);
         delete paths[i];
       }
     });
@@ -87,6 +124,11 @@ class Parser {
     this.tree();
   }
 
+  /** Gets the first existing directory of a given path
+   *
+   * @var string path /tmp/exists/non-existent/non-existent2/non-existent3/
+   * @return string /tmp/exists/
+   */
   getFirstExistingDirectory(path) {
     try {
       this.getLevel(path);
