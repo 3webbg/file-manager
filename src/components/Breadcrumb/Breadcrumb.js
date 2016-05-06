@@ -41,7 +41,7 @@ export default class Breadcrumb extends React.Component {
 
           return(
               <div className="breadcrumb-link-outer">
-                <a href="#" data-path={tmp_path} id={i} className="breadcrumb-link" onClick={that.changeLevel.bind(that)}>{pathName}</a> {((pathsArr.length > 1 && ((pathsArr.length-1) != i)) ? <span>&nbsp;>&nbsp;</span> : "")}
+                {(pathsArr.length-1 === i) ? <a href="#" data-path={tmp_path} id={i} className="breadcrumb-link" onClick={that.changeLevel.bind(that)}><span className="breadcrumb-selected">{pathName}</span></a> : <a href="#" data-path={tmp_path} id={i} className="breadcrumb-link" onClick={that.changeLevel.bind(that)}>{pathName}</a>} {((pathsArr.length > 1 && ((pathsArr.length-1) != i)) ? <span>&nbsp;>&nbsp;</span> : "")}
               </div>
           );
         })}

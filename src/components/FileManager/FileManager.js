@@ -47,6 +47,11 @@ export default class FileManager extends React.Component {
       this._clearFileRightMenu();
       this._clearDirRightMenu();
     };
+    
+    global.clearRename = () => {
+      this._clearFileRename();
+      this._clearDirRename();
+    };
 
   }
 
@@ -73,7 +78,29 @@ export default class FileManager extends React.Component {
       }
     }
   }
+  _clearFileRename() {
+    var i = 0;
+    while(i !== null) {
+      if(typeof this.refs['file_ref'+i] !== 'undefined') {
+        this.refs['file_ref'+i].clearFileRename();
+        i++;
+      } else {
+        i = null;
+      }
+    }
+  }
 
+  _clearDirRename() {
+    var i = 0;
+    while(i !== null) {
+      if(typeof this.refs['dir_ref'+i] !== 'undefined') {
+        this.refs['dir_ref'+i].clearFolderRename();
+        i++;
+      } else {
+        i = null;
+      }
+    }
+  }
   /* jshint ignore:start */
   render() {
     var

@@ -21,19 +21,28 @@
   background-color: #fff;
   box-shadow: 0px 1px 8px rgba(0,0,0,.46);
   position: absolute;
+  border-radius: 6px;
+}
+.fm-right-menu:hover {
+  overflow: hidden;
 }
 .fm-right-menu a {
   display: block;
-  padding: 7px 15px;
+  padding: 7px 15px !important;
   color: #2b2b2b;
+  overflow: hidden;
   border-bottom: 1px solid #c8c8c8;
 }
 .fm-right-menu a:hover {
   background-color: #F0EEEB;
+  overflow: hidden;
 }
 .selected_outline {
   border: 2px solid #2B2B2B;
 }
 .selected {
   background-color: #F0EEEB;
+}
+.selected_outline a {
+  padding: 6px;
 }

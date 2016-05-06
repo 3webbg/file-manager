@@ -10,10 +10,11 @@ export default class File extends React.Component {
     super(props);
     this.state = {
       'highlight': false,
-      menu: false
+      menu: false,
+      rename: false,
+      value: this.props.name
     };
   }
-
   setSelected(e) {
     var file = (e.currentTarget.getAttribute('data-path'))+(e.currentTarget.getAttribute('data-name'));
     global.clearHighlight();
@@ -23,7 +24,24 @@ export default class File extends React.Component {
     global.setDeleteDestination(file, false);
     global.setBreadcrumbCurrentLevel(file);
   }
-
+  setRename() {
+    this.setState({rename: true});
+  }
+  saveRename(e) {
+    if (e.key === 'Enter') {
+      var newName = ReactDOM.findDOMNode(this.refs.inputVal).value;
+      console.log(newName);
+      this.clearFileRename();
+    }
+  }
+  clearFileRename() {
+    this.setState({
+      rename: false
+    });
+  }
+  handleChange(e){
+    this.setState({value: e.target.value});
+  }
   highlight() {
     this.setState({'highlight': true});
   }
@@ -39,7 +57,7 @@ export default class File extends React.Component {
   rightMenu(e) {
     e.preventDefault();
     global.clearRightMenu();
-    this.setSelected(e);
+    global.clearRename();
     this.setState({menu: true});
   }
 
@@ -51,11 +69,11 @@ export default class File extends React.Component {
           <div>
             <div className="fm-left">
               <i className="fa fa-file" aria-hidden="true"/>
-              <span>{this.props.name}</span>
+              {(this.state.rename ? <input type="text" ref="inputVal" value={this.state.value} onChange={this.handleChange.bind(this)} onKeyPress={this.saveRename.bind(this)}/> : <span>{this.props.name}</span>)}
             </div>
           </div>
         </a>
-        {(this.state.menu) ? <Menu destination={this.props.path + this.props.name} /> : ""}
+        {(this.state.menu) ? <Menu onRename={this.setRename.bind(this)} destination={this.props.path + this.props.name} /> : ""}
       </div>
     );
   }

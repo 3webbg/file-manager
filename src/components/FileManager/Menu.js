@@ -7,10 +7,9 @@ export default class Menu extends React.Component {
   constructor(props) {
     super(props);
   }
-
   renameItem(e) {
     global.clearRightMenu();
-    alert('Rename ' + this.props.destination);
+    this.props.onRename();
   }
 
   deleteItem(e) {

@@ -1,6 +1,7 @@
 /* jshint ignore:start */
 import React from 'react';
 import Menu from './Menu';
+import ReactDOM from 'react-dom';
 /* jshint ignore:end */
 
 export default class Folder extends React.Component {
@@ -9,7 +10,9 @@ export default class Folder extends React.Component {
     super(props);
 
     this.state = {
-      menu: false
+      menu: false,
+      rename: false,
+      value: this.props.name
     };
   }
 
@@ -19,17 +22,35 @@ export default class Folder extends React.Component {
     global.setDeleteDestination(e.currentTarget.getAttribute('data-path'), true);
     this.props.listDirs(e);
   }
-
+  setRename() {
+    this.setState({rename: true});
+  }
+  saveRename(e) {
+    if (e.key === 'Enter') {
+      var newName = ReactDOM.findDOMNode(this.refs.inputVal).value;
+      console.log(newName);
+      this.clearFolderRename();
+    }
+  }
+  handleChange(e){
+    this.setState({value: e.target.value});
+  }
   clearRightMenu() {
     this.setState({
       menu: false
     });
   }
 
+  clearFolderRename() {
+    this.setState({
+      rename: false
+    });
+  }
+
   rightMenu(e) {
     e.preventDefault();
     global.clearRightMenu();
-    this.setSelected(e);
+    global.clearRename();
     this.setState({menu: true});
   }
 
@@ -41,11 +62,11 @@ export default class Folder extends React.Component {
           <div >
             <div className="fm-left">
               <i className="fa fa-folder" aria-hidden="true"/>
-              <span>{this.props.name}</span>
+              {(this.state.rename ? <input type="text" ref="inputVal" value={this.state.value} onChange={this.handleChange.bind(this)} onKeyPress={this.saveRename.bind(this)}/> : <span>{this.props.name}</span>)}
             </div>
           </div>
         </a>
-        {(this.state.menu) ? <Menu destination={this.props.path} /> : ""}
+        {(this.state.menu) ? <Menu onRename={this.setRename.bind(this)} onSave={this.saveRename.bind(this)} destination={this.props.path} /> : ""}
       </div>
     );
   }
