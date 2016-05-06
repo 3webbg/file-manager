@@ -23,6 +23,7 @@ export default class File extends React.Component {
     this.props.listDirs(e);
     global.setDeleteDestination(file, false);
     global.setBreadcrumbCurrentLevel(file);
+    global.setFilePreview(e.currentTarget.getAttribute('data-name'));
   }
   setRename() {
     this.setState({rename: true});
@@ -53,7 +54,10 @@ export default class File extends React.Component {
   clearRightMenu() {
     this.setState({menu: false});
   }
-
+  componentDidMount() {
+    var width = $('.fm-wrapper').length;
+    console.log(width);
+  }
   rightMenu(e) {
     e.preventDefault();
     global.clearRightMenu();
@@ -67,12 +71,10 @@ export default class File extends React.Component {
     return (
       <div className={("files " + ((this.state.highlight) ? "selected" : "")) + " " + ((this.state.menu) ? "selected_outline" : "")}>
         <a href="#" id={this.props.id} className="fm-dir files" data-path={this.props.path} data-name={this.props.name} onClick={this.setSelected.bind(this)} onContextMenu={this.rightMenu.bind(this)}>
-          <div>
             <div className="fm-left">
               <i className="fa fa-file" aria-hidden="true"/>
               {(this.state.rename ? <input type="text" ref="inputVal" value={this.state.value} onChange={this.handleChange.bind(this)} onKeyPress={this.saveRename.bind(this)}/> : <span>{this.props.name}</span>)}
             </div>
-          </div>
         </a>
         {(this.state.menu) ? <Menu onRename={this.setRename.bind(this)} isdir={false} destination={this.props.path + this.props.name} /> : ""}
       </div>

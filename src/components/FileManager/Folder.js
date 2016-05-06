@@ -46,7 +46,11 @@ export default class Folder extends React.Component {
       rename: false
     });
   }
-
+  componentDidMount() {
+    var width = $('.fm-wrapper').length;
+    $('body').css("width",""+220*width+"px");
+    console.log(width);
+  }
   rightMenu(e) {
     e.preventDefault();
     global.clearRightMenu();
@@ -60,12 +64,11 @@ export default class Folder extends React.Component {
     return (
       <div className={this.props.marked + " " + ((this.state.menu) ? "selected_outline" : "")}>
         <a href="#" id={this.props.id} className="fm-dir files" data-path={this.props.path} onClick={this.setSelected.bind(this)} onContextMenu={this.rightMenu.bind(this)}>
-          <div >
             <div className="fm-left">
               <i className="fa fa-folder" aria-hidden="true"/>
               {(this.state.rename ? <input type="text" ref="inputVal" value={this.state.value} onChange={this.handleChange.bind(this)} onKeyPress={this.saveRename.bind(this)}/> : <span>{this.props.name}</span>)}
             </div>
-          </div>
+            <i className="fa fa-caret-right" aria-hidden="true"/>
         </a>
         {(this.state.menu) ? <Menu onRename={this.setRename.bind(this)} isdir={true} onSave={this.saveRename.bind(this)} destination={this.props.path} /> : ""}
       </div>

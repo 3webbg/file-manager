@@ -1,7 +1,11 @@
+body {
+  min-width: 100%;
+  overflow: scroll;
+}
 .fm-wrapper {
   width: 220px;
   border-right: 1px solid #C8C8C8;
-  height: calc(100vh - 89px);
+  min-height: calc(100vh - 89px);
   float: left;
 }
 .fm-wrapper a {
@@ -45,4 +49,23 @@
 }
 .selected_outline a {
   padding: 6px;
+}
+.file-preview {
+  width: 300px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  flex-direction: column;
+  height: calc(100vh - 89px);
+  float: left;
+}
+.file-preview i {
+  font-size: 100px;
+  opacity: .1;
+}
+.file-preview span {
+  font-size: 25px;
+  margin-top: 10px;
+  font-weight: 200;
 }

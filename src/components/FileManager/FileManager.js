@@ -3,6 +3,7 @@ import React from 'react';
 import File from './File';
 import Folder from './Folder';
 import Menu from './Menu'
+import FilePreview from './FilePreview';
 /* jshint ignore:end */
 
 export default class FileManager extends React.Component {
@@ -12,7 +13,8 @@ export default class FileManager extends React.Component {
 
     /** Gets the root level (/) */
     this.state = {
-      'level': props.parser.getLevel()
+      'level': props.parser.getLevel(),
+      'preview': null
     };
   }
 
@@ -26,6 +28,10 @@ export default class FileManager extends React.Component {
   }
 
   componentWillMount() {
+
+    global.setFilePreview = (name) => {
+      this.setState({'preview': name});
+    };
 
     global.changeLevel = (path) => {
       this.setState({'level': this.props.parser.getLevel(path)});
@@ -42,7 +48,6 @@ export default class FileManager extends React.Component {
         }
       }
     };
-
     global.clearRightMenu = () => {
       this._clearFileRightMenu();
       this._clearDirRightMenu();
@@ -54,7 +59,11 @@ export default class FileManager extends React.Component {
     };
 
   }
-
+  componentDidMount() {
+    var width = $('.fm-wrapper').length;
+    console.log(width);
+    $('body').css();
+  }
   _clearFileRightMenu() {
     var i = 0;
     while(i !== null) {
@@ -147,6 +156,7 @@ export default class FileManager extends React.Component {
             </div>
           );
         })}
+        {(this.state.preview !== null) ? <FilePreview name={this.state.preview} /> : ''}
       </div>
     );
   }
