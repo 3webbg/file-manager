@@ -38,15 +38,10 @@ class FileManagerAPI {
         <BackwardButton parser={this.parser} />
         <HomeButton />
         <NewFolderButton parser={this.parser} />
-        <DeleteButton parser={this.parser} />
+        <DeleteButton parser={this.parser} emitter={this.e} />
       </Header>
-      <Breadcrumb
-        parser={this.parser}
-      />
-      <FileManager
-        emitter={this.e}
-        parser={this.parser}
-      />
+      <Breadcrumb parser={this.parser} />
+      <FileManager emitter={this.e} parser={this.parser} />
     </div>, document.getElementById('container'));
     /* jshint ignore:end */
   }

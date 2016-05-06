@@ -20,7 +20,7 @@ export default class Breadcrumb extends React.Component {
     global.setBreadcrumbCurrentLevel(prev);
     global.setBackwardCurrentLevel(prev);
     global.setNewFolderCurrentLevel(prev);
-    global.setDeleteDestination(prev);
+    global.setDeleteDestination(prev, true);
     global.changeLevel(prev);
   }
 

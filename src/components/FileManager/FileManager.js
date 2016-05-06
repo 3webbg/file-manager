@@ -21,7 +21,7 @@ export default class FileManager extends React.Component {
     global.setBreadcrumbCurrentLevel(level);
     global.setBackwardCurrentLevel(level);
     global.setNewFolderCurrentLevel(level);
-    global.setDeleteDestination(level);
+    global.setDeleteDestination(level, true);
     this.setState({'level': this.props.parser.getLevel(level)});
   }
 

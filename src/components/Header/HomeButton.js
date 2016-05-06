@@ -9,7 +9,7 @@ export default class HomeButton extends React.Component {
     global.setBreadcrumbCurrentLevel('/');
     global.setBackwardCurrentLevel('/');
     global.setNewFolderCurrentLevel('/');
-    global.setDeleteDestination('/');
+    global.setDeleteDestination('/', true);
     global.clearHighlight();
     global.changeLevel('/');
   }

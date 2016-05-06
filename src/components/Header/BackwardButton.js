@@ -17,7 +17,7 @@ export default class BackwardButton extends React.Component {
     global.setBreadcrumbCurrentLevel(prev);
     global.setBackwardCurrentLevel(prev);
     global.setNewFolderCurrentLevel(prev);
-    global.setDeleteDestination(prev);
+    global.setDeleteDestination(prev, true);
     global.clearHighlight();
     global.changeLevel(prev);
   }

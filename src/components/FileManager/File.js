@@ -15,15 +15,12 @@ export default class File extends React.Component {
   }
 
   setSelected(e) {
-
     var file = (e.currentTarget.getAttribute('data-path'))+(e.currentTarget.getAttribute('data-name'));
-    console.log('file name maybe ', file);
-
     global.clearHighlight();
     global.clearRightMenu();
     this.highlight();
     this.props.listDirs(e);
-    global.setDeleteDestination(file);
+    global.setDeleteDestination(file, false);
     global.setBreadcrumbCurrentLevel(file);
   }
 

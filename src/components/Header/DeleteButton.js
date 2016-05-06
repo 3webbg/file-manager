@@ -6,12 +6,12 @@ export default class DeleteButton extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {'destination': null};
+    this.state = {'destination': null, 'isdir': false};
   }
 
   componentWillMount() {
-    global.setDeleteDestination = (destination) => {
-      this.setState({'destination': destination});
+    global.setDeleteDestination = (destination, dir) => {
+      this.setState({'destination': destination, 'isdir': dir});
       return this;
     };
 
@@ -21,7 +21,7 @@ export default class DeleteButton extends React.Component {
   }
 
   clearDeleteDestination() {
-    this.setState({'destination': null});
+    this.setState({'destination': null, 'isdir': false});
   }
 
   deleteDestination(e) {
@@ -32,7 +32,13 @@ export default class DeleteButton extends React.Component {
   }
 
   forceDelete() {
-    alert('Delete destination ' + this.state.destination);
+    this.props.parser.deleteFromPaths(this.state.destination, this.state.isdir, this.props.emitter);
+    var level = this.props.parser.getFirstExistingDirectory(this.state.destination);
+    global.setBreadcrumbCurrentLevel(level);
+    global.setBackwardCurrentLevel(level);
+    global.setNewFolderCurrentLevel(level);
+    global.setDeleteDestination(level, true);
+    global.changeLevel(level);
   }
 
   render() {

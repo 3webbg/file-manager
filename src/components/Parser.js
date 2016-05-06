@@ -17,6 +17,7 @@ class Parser {
   /** Builds the trees from file paths */
   tree() {
     var that = this;
+    this.levels = [];
 
     this.paths.forEach(function (value) {
       that.levels.push(that.explodeTree((value.path.split('/').filter(function (value) {return (value !== '');})), value._id, that));
@@ -29,6 +30,33 @@ class Parser {
     dir = dir.split('/').filter(function (value) {return (value !== '');});
     dir.pop();
     return dir.join('/');
+  }
+
+  deleteFromPaths(path, dir, e) {
+    var paths = this.paths;
+
+    this.paths.map(function (item, i) {
+      if((dir && item.path.startsWith(path + "/")) || (!dir && item.path == path)) {
+        e.emitDelete(paths[i].path, paths[i]._id);
+        delete paths[i];
+      }
+    });
+
+    this.paths = paths;
+
+    /** Rebuilds the tree */
+    this.tree();
+  }
+
+  getFirstExistingDirectory(path) {
+    try {
+      this.getLevel(path);
+    }
+    catch (e) {
+      path = this.getFirstExistingDirectory(this.previous(path));
+    }
+
+    return path;
   }
 
   /** Returns directories & files

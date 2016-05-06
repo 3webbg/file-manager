@@ -16,7 +16,7 @@ export default class Folder extends React.Component {
   setSelected(e){
     global.clearHighlight();
     global.clearRightMenu();
-    global.setDeleteDestination(e.currentTarget.getAttribute('data-path'));
+    global.setDeleteDestination(e.currentTarget.getAttribute('data-path'), true);
     this.props.listDirs(e);
   }
 
